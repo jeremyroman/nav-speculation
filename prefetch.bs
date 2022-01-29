@@ -67,6 +67,11 @@ spec: RFC8941; urlPrefix: https://www.rfc-editor.org/rfc/rfc8941.html
     text: List; url: name-lists
     text: Token; url: name-tokens
 </pre>
+<pre class="biblio">
+{
+  "HTTP-AUTH":{"aliasOf":"RFC7235","id":"HTTP-AUTH"}
+}
+</pre>
 
 <h2 id="concepts">Concepts</h2>
 
@@ -397,6 +402,9 @@ The <dfn>list of sufficiently strict speculative navigation referrer policies</d
 
             <div class="note">The prefetch would end up in the same partition as the prefetch came from in this case. |environment| represents the environment that would ordinarily be used during navigation fetch.</div>
         1. If there are [=credentials=] associated with |request|'s [=request/current URL=] and |hypotheticalPartitionKey|, then [=set/append=] |request|'s [=request/current URL=]'s [=url/origin=] to |originsWithConflictingCredentials|.
+        1. If [=credentials=] would be included with |request| were it fetched with |environment| as its [=request/reserved client=] (i.e., using the storage associated with |hypotheticalPartitionKey|), return "`Blocked`".
+
+            Specificially, must include not only unexpired cookies which match the domain (and other parameters, like `Path`), but also cached [=authentication entries=] and TLS client certificates. [[!COOKIES]] [[!HTTP-AUTH]] [[!TLS]]
         1. Return "`Allowed`".
 
     1. Let |shouldBlockNavigationResponse| be the following steps, given [=request=] |request| and [=response=] |response|:
